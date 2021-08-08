@@ -1,0 +1,101 @@
+tags:
+- name: subscribe
+  description: topic subscribtion API
+- name: publish
+  description: publication API
+
+paths:
+
+# [GET] subscribe
+  /subscribe/{topic}:
+    get:
+      tags:
+      - subscribe
+      summary: Find All Users
+      parameters:
+      - name: topic
+        in: path
+        description: topic to retrieve
+        required: true
+        type: string
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+
+# [POST] subscribe
+    post:
+      tags:
+      - subscribe
+      summary: Subscribe to topic
+      parameters:
+      - name: topic
+        in: path
+        description: topic to subscribe to 
+        required: true
+        type: string
+      - name: body
+        in: body
+        description: url
+        required: true
+        schema:
+          $ref: '#/definitions/subscription'
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+
+# [POST] publish
+  /publish/{topic}:
+    post:
+      tags:
+      - publish
+      summary: post new publication
+      parameters:
+      - name: topic
+        in: path
+        description: publication topic 
+        required: true
+        type: string
+      - name: body
+        in: body
+        description: object to publish
+        required: true
+        type: object
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+# definitions
+definitions:
+  subscription:
+    type: object
+    required:
+        - url
+    properties:
+      url:
+        type: string
+        description: url
+      topic:
+        type: string
+        description: topic
+
+  publication:
+    type: object
+
+schemes:
+ - https
+ - http
